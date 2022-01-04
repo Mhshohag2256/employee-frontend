@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import EmployeeServices from '../services/EmployeeServices';
 
 export default class ListEmployeeComponent extends Component {
   constructor(props) {
@@ -9,13 +10,19 @@ export default class ListEmployeeComponent extends Component {
     };
   }
 
+  componentDidMount() {
+    EmployeeServices.getEmployees().then((res) => {
+      this.setState({ employees: res.data });
+    });
+  }
+
   render() {
     return (
       <div>
         <h2 className='text-center'>Employee List</h2>
         <div className='row'>
-          <table className='table table-striped table=bordered'>
-            <thead>
+          <table className='table table-striped table-bordered'>
+            <thead className='thead-dark'>
               <tr>
                 <th>Employee First Name</th>
                 <th>Employee Last Name</th>
@@ -25,10 +32,10 @@ export default class ListEmployeeComponent extends Component {
             </thead>
             <tbody>
               {this.state.employees.map((employee) => (
-                <tr key={employee.Id}>
-                  <td>{employee.firstName}</td>
-                  <td>{employee.lastName}</td>
-                  <td>{employee.email}</td>
+                <tr key={employee.id}>
+                  <td className='table-primary'>{employee.firstName}</td>
+                  <td className='table-success'>{employee.lastName}</td>
+                  <td className='table-info'>{employee.email}</td>
                 </tr>
               ))}
             </tbody>
